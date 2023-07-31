@@ -58,6 +58,7 @@ class Group(models.Model, DateTimeMixin):
     name = models.CharField(_("name group"), max_length=150)
     teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
     student = models.ManyToManyField(Student, blank=True)
+    course = models.ForeignKey("testing_system.Course", on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f"{self.pk} - {self.name}"
