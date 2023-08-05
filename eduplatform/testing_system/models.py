@@ -21,3 +21,12 @@ class Topic(models.Model, DateTimeMixin):
 
     def __str__(self):
         return f"{self.pk} - {self.name}"
+
+
+class Article(models.Model, DateTimeMixin):
+    name = models.CharField(max_length=150)
+    description = models.TextField()
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"{self.pk} - {self.name}"
