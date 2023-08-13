@@ -41,6 +41,9 @@ class Test(models.Model, DateTimeMixin):
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+        return f"{self.pk} - {self.name}"
+
 
 class AnswerType(models.Model, DateTimeMixin):
     class Types(models.TextChoices):
@@ -50,10 +53,16 @@ class AnswerType(models.Model, DateTimeMixin):
 
     type = models.CharField(default="radiobutton", max_length=15, choices=Types.choices)
 
+    def __str__(self):
+        return f"{self.pk} - {self.type}"
+
 
 class Question(models.Model, DateTimeMixin):
     name = models.CharField(max_length=150)
     test = models.ForeignKey(Test, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"{self.pk} - {self.name}"
 
 
 class Answer(models.Model, DateTimeMixin):
@@ -61,3 +70,6 @@ class Answer(models.Model, DateTimeMixin):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     is_correct = models.BooleanField(default=False)
     answer_type = models.ForeignKey(AnswerType, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"{self.pk} - {self.text}"
