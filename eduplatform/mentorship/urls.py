@@ -3,6 +3,7 @@ from rest_framework import routers
 
 from .endpoints import (
     BaseImageViewSet,
+    GroupStudentAPIView,
     GroupViewSet,
     SpecializationViewSet,
     StudentViewSet,
@@ -19,5 +20,6 @@ router.register("specializationviewset", SpecializationViewSet)
 router.register("baseimageviewset", BaseImageViewSet)
 
 urlpatterns = [
+    path("group_student/", GroupStudentAPIView.as_view(), name="groups_students"),
     path("", include(router.urls)),
 ]

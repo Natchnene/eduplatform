@@ -38,3 +38,18 @@ class BaseImageSerializer(ModelSerializer):
     class Meta:
         model = BaseImage
         fields = "__all__"
+
+
+class GroupStudentSerializer(ModelSerializer):
+    class Meta:
+        model = Group
+
+    def to_representation(self, object):
+        match object.__class__.__name__:
+            case "Student":
+                serializer = StudentSerializer(object)
+            case "Group":
+                serializer = GroupSerializer(object)
+            case _:
+                raise Exception("Nothing to serialize. Check input data.")
+        return serializer.data
