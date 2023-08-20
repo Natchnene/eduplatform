@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    *["mentorship", "testing_system"],
+    *["mentorship", "testing_system", "rest_framework"],
 ]
 
 MIDDLEWARE = [
