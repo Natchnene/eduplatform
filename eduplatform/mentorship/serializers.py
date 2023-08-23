@@ -53,3 +53,18 @@ class GroupStudentSerializer(ModelSerializer):
             case _:
                 raise Exception("Nothing to serialize. Check input data.")
         return serializer.data
+
+
+class TeachersStudentsSerializer(ModelSerializer):
+    class Meta:
+        model = Teacher
+
+    def to_representation(self, object):
+        match object.__class__.__name__:
+            case "Teacher":
+                serializer = TeacherSerializer(object)
+            case "Student":
+                serializer = StudentSerializer(object)
+            case _:
+                raise Exception("Nothing to serialize. Check input data.")
+        return serializer.data
