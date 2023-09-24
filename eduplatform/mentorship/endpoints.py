@@ -1,7 +1,9 @@
 from itertools import chain
 
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, status
 from rest_framework.generics import ListAPIView
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .mixins import BaseImage
 from .models import Group, Specialization, Student, Teacher, User
@@ -14,6 +16,7 @@ from .serializers import (
     TeacherSerializer,
     TeachersStudentsSerializer,
     UserSerializer,
+    LoginSerializer
 )
 
 
@@ -119,3 +122,14 @@ class TeachersStudentsCourseAPIView(ListAPIView):
         queryset = chain(teachers, students)
         if isinstance(queryset, chain):
             return queryset
+
+
+class LoginAPIView(APIView):
+    serializer_class = LoginSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        user = request.data.get("user", {})
+        serializer = self.serializer_class(data=user)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

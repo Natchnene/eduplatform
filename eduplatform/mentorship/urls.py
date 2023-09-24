@@ -14,6 +14,7 @@ from .endpoints import (
     TeachersStudentsCourseAPIView,
     TeacherViewSet,
     UserViewSet,
+    LoginAPIView
 )
 
 router = routers.SimpleRouter()
@@ -25,6 +26,7 @@ router.register("specializationviewset", SpecializationViewSet)
 router.register("baseimageviewset", BaseImageViewSet)
 
 urlpatterns = [
+    path("login/", LoginAPIView.as_view(), name="login"),
     path("", include(router.urls)),
     path("group_student/", GroupStudentAPIView.as_view(), name="groups_students"),
     re_path("group/(?P<id>[^/.]+)/student", StudentsGroupAPIView.as_view(), name="students_group"),
