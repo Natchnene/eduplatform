@@ -35,13 +35,13 @@ class User(AbstractBaseUser, PermissionsMixin, DateTimeMixin):
 
     def _generate_jwt_token(self):
         dt = datetime.now() + timedelta(days=1)
-
         token = jwt.encode({
             'id': self.pk,
+            'email': self.email,
             'exp': int(dt.strftime('%s'))
         }, settings.SECRET_KEY, algorithm='HS256')
 
-        return token.decode('utf-8')
+        return token
 
     class Meta:
         verbose_name = _("user")

@@ -82,13 +82,16 @@ class LoginSerializer(Serializer):
         password = data.get("password")
         user = authenticate(username=email, password=password)
 
+        # if not isinstance(user, User):
+        #     raise serializers.ValidationError(f"user is not USER{type(user)} {user} {email} {password}")
+
         if not all(email or password or user):
             raise serializers.ValidationError("DATA IS NOT CORRECT")
-        try:
-            if not user.is_active:
-                raise serializers.ValidationError("USER IS NOT ACTIVE")
-        except AttributeError:
-            raise serializers.ValidationError("DATA IS NOT CORRECT2")
+        # try:
+        #     if not user.is_active:
+        #         raise serializers.ValidationError("USER IS NOT ACTIVE")
+        # except AttributeError:
+        #     raise serializers.ValidationError("DATA IS NOT CORRECT2")
 
         return {"email": user.email, "token": user.token}
 

@@ -7,7 +7,7 @@ from rest_framework import authentication, exceptions
 from .models import User
 
 
-class JWTAuthentication(authentication.BaseAuthentication):
+class JWTAuthentication(authentication.TokenAuthentication):
     authentication_header_prefix = 'Token'
 
     def authenticate(self, request):
@@ -66,4 +66,4 @@ class JWTAuthentication(authentication.BaseAuthentication):
             msg = 'Данный пользователь деактивирован.'
             raise exceptions.AuthenticationFailed(msg)
 
-        return user, token
+        return user
