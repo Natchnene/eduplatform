@@ -1,17 +1,17 @@
-from .models import User
 from .annotations import UserAnnotation
+from .models import Group, Specialization, Student, Teacher, User
 
-USER_DATA = {
-    "password": "qwerty",
-    "first_name": "TestName",
-    "last_name": "TestSurname",
-    "email": "test@email.com"}
+USER_DATA = {"password": "qwerty", "first_name": "TestName", "last_name": "TestSurname", "email": "test@email.com"}
 
 
 def create_user() -> UserAnnotation:
-    user = User.objects.create_user(
-        password="qwerty",
-        first_name="TestName",
-        last_name="TestSurname",
-        email="test@email.com")
+    user = User.objects.create_user(password="qwerty", first_name="TestName", last_name="TestSurname", email="test@email.com")
     return user
+
+
+SPECIALIZATION_DATA = {"specialization": "TestSpecialization"}
+
+
+def create_specialization():
+    specialization = Specialization.objects.create(specialization="TestSpecialization")
+    return specialization

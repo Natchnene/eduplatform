@@ -2,8 +2,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from .consts import USER_DATA, create_user
-from .serializers import UserSerializer
+from .consts import SPECIALIZATION_DATA, USER_DATA, create_specialization, create_user
+from .serializers import SpecializationSerializer, UserSerializer
 
 
 class CreateUserTest(APITestCase):
@@ -48,3 +48,58 @@ class DeleteUserTest(APITestCase):
         url = reverse("user-detail", args=[self.user.id])
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+class CreateSpecializationTest(APITestCase):
+    def test_create_specialization(self):
+        url = reverse("specialization-list")
+        response = self.client.post(url, data=SPECIALIZATION_DATA, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+
+class ReadSpecializationTest(APITestCase):
+    def setUp(self):
+        self.specialization = create_specialization()
+
+    def test_read_specialization_list(self):
+        url = reverse("specialization-list")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_read_specialization_detail(self):
+        url = reverse("specialization-detail", args=[self.specialization.id])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class UpdateSpecializationTest(APITestCase):
+    def setUp(self):
+        self.specialization = create_specialization()
+        self.data = SpecializationSerializer(self.specialization).data
+        self.data.update = {"specialization": "NewTestSpecialization"}
+
+    def test_update_specialization(self):
+        url = reverse("specialization-detail", args=[self.specialization.id])
+        response = self.client.put(url, self.data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class DeleteSpecializationTest(APITestCase):
+    def setUp(self):
+        self.specialization = create_specialization()
+
+    def test_delete_specialization(self):
+        url = reverse("specialization-detail", args=[self.specialization.id])
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+class CreateTeacherTest(APITestCase):
+    def setUp(self):
+        self.user = create_user()
+        self.specialization = create_specialization()
+
+    def test_create_teacher(self):
+        url = reverse("teacher-list")
+        response = self.client.post(url, data={"user": self.user, "specialization": self.specialization}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
