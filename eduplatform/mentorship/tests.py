@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from .consts import SPECIALIZATION_DATA, USER_DATA, create_specialization, create_user, create_teacher
-from .serializers import SpecializationSerializer, UserSerializer
+from .serializers import SpecializationSerializer, UserSerializer, TeacherSerializer
 
 
 class CreateUserTest(APITestCase):
@@ -101,7 +101,10 @@ class CreateTeacherTest(APITestCase):
 
     def test_create_teacher(self):
         url = reverse("teacher-list")
-        response = self.client.post(url, data={"user": self.user.id, "specialization": [self.specialization]}, format="json")
+        response = self.client.post(url,
+                                    data={
+                                        "user": self.user.id,
+                                        "specialization": [self.specialization.id]})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
@@ -121,7 +124,16 @@ class ReadTeacherTest(APITestCase):
 
 
 class UpdateTeacherTest(APITestCase):
-    pass
+    def setUp(self):
+        self.teacher = create_teacher()
+        self.data = TeacherSerializer(self.teacher).data
+        self.specialization = create_specialization()
+        self.data.update = {"specialization": [self.specialization.id]}
+
+    def test_update_teacher(self):
+        url = reverse("teacher-detail", args=[self.teacher.id])
+        response = self.client.put(url, self.data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class DeleteTeacherTest(APITestCase):

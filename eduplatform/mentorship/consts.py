@@ -20,5 +20,6 @@ def create_specialization():
 def create_teacher():
     user = create_user()
     specialization = create_specialization()
-    teacher = Teacher.objects.create(user=user.id, specialization=[specialization])
+    teacher = Teacher.objects.create(user=user)
+    teacher.specialization.add(specialization.id)
     return teacher
