@@ -15,3 +15,10 @@ SPECIALIZATION_DATA = {"specialization": "TestSpecialization"}
 def create_specialization():
     specialization = Specialization.objects.create(specialization="TestSpecialization")
     return specialization
+
+
+def create_teacher():
+    user = create_user()
+    specialization = create_specialization()
+    teacher = Teacher.objects.create(user=user.id, specialization=[specialization])
+    return teacher
