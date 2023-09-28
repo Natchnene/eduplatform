@@ -1,5 +1,6 @@
 from .annotations import UserAnnotation
 from .models import Group, Specialization, Student, Teacher, User
+from testing_system.models import Course
 
 USER_DATA = {"password": "qwerty", "first_name": "TestName", "last_name": "TestSurname", "email": "test@email.com"}
 
@@ -23,3 +24,25 @@ def create_teacher():
     teacher = Teacher.objects.create(user=user)
     teacher.specialization.add(specialization.id)
     return teacher
+
+
+def create_student():
+    user = create_user()
+    student = Student.objects.create(rating=default, user=user)
+    return student
+
+
+def create_course():
+    teacher = create_teacher()
+    specialization = create_specialization()
+    course = Course.objects.create(name="TestCourse", description="TestDescription", teacher=teacher, specialization=specialization)
+    return course
+
+
+def create_group():
+    teacher = create_teacher()
+    student = create_student()
+    course = create_course()
+    group = Group.objects.create(name="TestGroup", teacher=teacher, course=course)
+    group.student.add(student.id)
+    return group
