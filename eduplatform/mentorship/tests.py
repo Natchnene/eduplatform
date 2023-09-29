@@ -151,7 +151,7 @@ class CreateGroupTest(APITestCase):
     def setUp(self):
         self.teacher = create_teacher()
         self.student = create_student()
-        self.course = create_course()
+        self.course = create_course(self.teacher)
 
     def test_create_group(self):
         url = reverse("group-list")
@@ -187,7 +187,7 @@ class UpdateGroupTest(APITestCase):
 
     def test_update_group(self):
         url = reverse("group-detail", args=[self.group.id])
-        response = self.client.put(url)
+        response = self.client.put(url, self.data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
