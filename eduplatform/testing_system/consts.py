@@ -1,10 +1,13 @@
 from .models import Course, Topic
 from mentorship.consts import create_course, create_teacher
 from mentorship.mixins import BaseImage
+from unittest.mock import Mock
 
 
 def create_base_image():
-    image = BaseImage.objects.create("image_2023-07-30_21-55-43.png")
+    image = BaseImage()
+    mock = Mock()
+    image.image(mock)
     return image
 
 
