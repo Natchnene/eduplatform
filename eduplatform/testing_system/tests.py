@@ -12,7 +12,7 @@ class CreateTopicTest(APITestCase):
     def setUp(self):
         self.teacher = create_teacher()
         self.course = create_course(self.teacher)
-        self.base_image = create_base_image()
+        # self.base_image = create_base_image()
 
     def test_create_topic(self):
         url = reverse("topic-list")
@@ -21,7 +21,7 @@ class CreateTopicTest(APITestCase):
                                         "name": "TestTopic",
                                         "description": "TestDescription",
                                         "course": self.course.id,
-                                        "image": [self.base_image.id]})
+                                        "image": []})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 

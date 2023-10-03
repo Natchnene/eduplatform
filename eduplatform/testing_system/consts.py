@@ -3,11 +3,16 @@ from mentorship.consts import create_course, create_teacher
 from mentorship.mixins import BaseImage
 from unittest.mock import Mock
 
+import mock
+from django.core.files import File
+
 
 def create_base_image():
-    image = BaseImage()
-    mock = Mock()
-    image.image(mock)
+    file_mock = mock.MagicMock(spec=File)
+    image = BaseImage(image=file_mock)
+    # mock = Mock()
+    # mock.return_value = "TestImage"
+    # image.image(mock)
     return image
 
 
